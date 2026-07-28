@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend
+    restart: always
+    volumes:
+      - mams_sqlite_data:/app/data
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build: ./frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  mams_sqlite_data:

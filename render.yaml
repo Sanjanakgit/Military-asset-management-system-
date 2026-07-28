@@ -1,0 +1,25 @@
+# SQLite stores the whole database in one file (backend/data/mams.db).
+# Render's free plan gives a service temporary disk space only - it gets
+# wiped on every restart or redeploy, so data would not really persist.
+# To make it persist, upgrade this service to a paid plan and uncomment
+# the "disk" section below, which attaches real persistent storage.
+# See docs/PROJECT_REPORT.pdf section 6.6 for the full explanation.
+services:
+  - type: web
+    name: mams-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: "*"
+    # disk:
+    #   name: mams-data
+    #   mountPath: /opt/render/project/src/backend/data
+    #   sizeGB: 1
+    # After the FIRST deploy only, open the Render Shell for this service
+    # and run `python seed.py` once to create the database.

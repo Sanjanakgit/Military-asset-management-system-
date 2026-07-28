@@ -1,0 +1,10 @@
+node_modules/
+dist/
+backend/logs/
+backend/data/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/venv/
+backend/*.pyc
+*.log
+.DS_Store
